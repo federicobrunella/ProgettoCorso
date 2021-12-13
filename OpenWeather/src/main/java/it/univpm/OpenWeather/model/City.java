@@ -13,8 +13,6 @@ public class City {
 	private String ID;								//Numero identificativo della città
 	private String country;							//Nome paese
 	private Vector <WeatherData> forecast;			//Vettore con i dati delle previsioni ogni 3 ore per 5 gg
-	private String main;							//Condizione meteo 
-	private String description;						//Descrizione condizione meteo
 	
 	
 	public String toString() {
@@ -48,18 +46,6 @@ public class City {
 	}
 	public void setForecast(Vector<WeatherData> forecast) {
 		this.forecast = forecast;
-	}
-	public String getMain() {
-		return main;
-	}
-	public void setMain(String main) {
-		this.main = main;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
 	}
 	
 }

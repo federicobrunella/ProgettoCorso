@@ -7,12 +7,14 @@ package it.univpm.OpenWeather.model;
 
 public class WeatherData {
 	
-	private int dt;					//DataTime in formato Unix
-	private String txtDateTime;		//DataTime in formato Testuale
-	private double temp;			//Temperatura
-	private double feelsLike;		//Temperatura percepita
-	private double tempMin;			//Temperatura minima
-	private double tempMax;			//Temperatura massima
+	private int dt;									//DataTime in formato Unix
+	private String txtDateTime;						//DataTime in formato Testuale
+	private double temp;							//Temperatura
+	private double feelsLike;						//Temperatura percepita
+	private double tempMin;							//Temperatura minima
+	private double tempMax;							//Temperatura massima
+	private String main;							//Condizione meteo 
+	private String description;						//Descrizione condizione meteo
 	
 	public String toString() {
 		//TODO: completare metodo toString!
@@ -58,6 +60,18 @@ public class WeatherData {
 	}
 	public void setTempMax(double tempMax) {
 		this.tempMax = tempMax;
+	}
+	public String getMain() {
+		return main;
+	}
+	public void setMain(String main) {
+		this.main = main;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }
