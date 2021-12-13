@@ -1,4 +1,4 @@
-package it.univpm.OpenWeather.Statistics;
+package it.univpm.OpenWeather.statistics;
 
 import org.json.simple.JSONObject;
 

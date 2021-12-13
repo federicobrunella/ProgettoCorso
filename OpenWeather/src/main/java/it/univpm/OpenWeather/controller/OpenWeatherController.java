@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.univpm.OpenWeather.service.WeatherService;
+import it.univpm.OpenWeather.statistics.StatisticsImpl;
 
 /**
  * @author Federico Brunella
@@ -34,5 +35,14 @@ public class OpenWeatherController {
 	public ResponseEntity<Object> getForecastbyCity(@RequestParam(name="city") String city) {
 		return new ResponseEntity<>(weatherService.ModelObjToMyJSON(weatherService.JSONForecastToModelObj(weatherService.getJSONForecast(city))), HttpStatus.OK);
 	}
+
+	@RequestMapping(value = "/getStatistics")
+	public ResponseEntity<Object> getStatistics(@RequestParam(name="city") String city, @RequestParam(name="days", defaultValue="5") String days) {
+		StatisticsImpl stats = new StatisticsImpl(weatherService.JSONForecastToModelObj(weatherService.getJSONForecast(city)), days);
+		stats.calculateStatistics();
+		return new ResponseEntity<>(stats.getJSONStatistics(), HttpStatus.OK);
+	}
+
+	//TODO: richiesta post per statistiche con filtro più avanzato( /getAdvancedStats)
 
 }
