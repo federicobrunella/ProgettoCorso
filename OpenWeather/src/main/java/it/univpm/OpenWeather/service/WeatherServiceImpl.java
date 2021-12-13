@@ -180,7 +180,20 @@ public class WeatherServiceImpl implements WeatherService {
 
 	@Override
 	public void saveToFile(JSONObject obj) {
-		//TODO: save to file
+		String timeStamp =new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date().getTime());
+		String city = ((String)obj.get("city"));
+		
+		String fileName = "localData/CurrentWeather_" + city + "_" + timeStamp +".json";//+timeStamp+".json";
+
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
+			out.write(obj.toJSONString());
+			out.close();
+		} 
+		catch ( IOException e) {
+			System.out.println("I/O error");
+			System.out.println(e);
+		}
 	}
 	
 	private JSONObject getJSONFromAPI(String url) {

@@ -1,5 +1,6 @@
 package it.univpm.OpenWeather.controller;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,9 @@ public class OpenWeatherController {
 
 	@RequestMapping(value = "/getCurrentWeather")
 	public ResponseEntity<Object> getCurrentWeather(@RequestParam(name="city") String city) {
-		return new ResponseEntity<>(weatherService.ModelObjToMyJSON(weatherService.JSONCurrentToModelObj(weatherService.getJSONCurrentWeather(city))), HttpStatus.OK);
+		JSONObject output = weatherService.ModelObjToMyJSON(weatherService.JSONCurrentToModelObj(weatherService.getJSONCurrentWeather(city)));
+		weatherService.saveToFile(output);
+		return new ResponseEntity<>(output, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/getWeatherForecast")
