@@ -1,6 +1,3 @@
-/**
- * 
- */
 package it.univpm.OpenWeather.service;
 
 import org.json.simple.JSONObject;
