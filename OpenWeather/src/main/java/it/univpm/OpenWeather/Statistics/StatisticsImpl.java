@@ -35,6 +35,7 @@ public class StatisticsImpl extends Statistics {
 		statsJSON.put("avg_temp_min",this.avgTempMin);
 		statsJSON.put("avg_temp_max", this.avgTempMax);
 		statsJSON.put("avg_feels_like", this.avgFeelsLike);
+		statsJSON.put("stats_period", this.days+"_days");
 		
 		output.put("stats", statsJSON);
 		
@@ -42,7 +43,18 @@ public class StatisticsImpl extends Statistics {
 	}
 	
 	public void calculateStatistics() {
-		//TODO: calcolo
+		
+		for(int j=0; j<this.forecastCount; j++) {
+			
+			this.avgTemp+=(city.getForecast().get(j)).getTemp();
+			this.avgTempMin+=(city.getForecast().get(j)).getTempMin();
+			this.avgTempMax+=(city.getForecast().get(j)).getTempMax();
+			this.avgFeelsLike+=(city.getForecast().get(j)).getFeelsLike();
+		}
+		this.avgTemp=this.avgTemp/forecastCount;
+		this.avgTempMin=this.avgTempMin/forecastCount;
+		this.avgTempMax=this.avgTempMax/forecastCount;
+		this.avgFeelsLike=this.avgFeelsLike/forecastCount;
 	}
 
 	public int getDays() {
