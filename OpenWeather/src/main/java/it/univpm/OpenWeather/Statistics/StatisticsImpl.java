@@ -22,8 +22,23 @@ public class StatisticsImpl extends Statistics {
 	}
 	
 	public JSONObject getJSONStatistics() {
-		//TODO: fare l'output
-		return null;
+		
+		JSONObject output = new JSONObject();
+		
+		output.put("city", city.getName());
+		output.put("ID", city.getID());
+		output.put("country", city.getCountry());
+		
+		JSONObject statsJSON = new JSONObject();
+		
+		statsJSON.put("avg_temp", this.avgTemp);
+		statsJSON.put("avg_temp_min",this.avgTempMin);
+		statsJSON.put("avg_temp_max", this.avgTempMax);
+		statsJSON.put("avg_feels_like", this.avgFeelsLike);
+		
+		output.put("stats", statsJSON);
+		
+		return output;
 	}
 	
 	public void calculateStatistics() {
