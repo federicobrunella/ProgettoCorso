@@ -1,6 +1,50 @@
-# Progetto corso Programmazione ad Oggetti 2021-2022
+# Progetto OpenWeather
 
-Progetto del corso di programmazione ad oggetti 2021-2022
+**Table of Contents**
 
-Prova commit Leo.
-Prova commit Fede.
+[TOC]
+
+#Introduzione
+Il progetto è un applicazione Spring che permette di ottenere informazioni e statistiche sulle temperature di una specificata località.
+Le informazioni provengono dalle API di OpenWeatherMap.org (inserire link), sono disponibili tramite la nostra applicazione:
+- Informazioni meteo sulla temperatura reale, percepita, minima e massima
+- Informazioni attuali
+- previsioni ogni 3 ore per i successivi 5 giorni
+
+#API OpenWeatherMap.org
+OpenWeatherMap.org mette a disposizione un numeroso set di API sia gratuite che a pagamento.
+Il nostro progetto sfrutta esclusivamente API gratuite ottenibili da chiunque solo registrandosi presso il loro sito.
+L'API-Key è necessaria per usufruire anche delle API gratuite, nel nostro codice è possibile midificare tale API-Key per qualsiasi scopo con un altra, in particolare:
+
+`private String apiKey = "0***************************************f";`
+
+
+
+#Rotte
+##Panoramica
+| Rotte | Description                    |
+| ------------- | ------------------------------ |
+| `/getMetadata`      | Permette di ottenre i metadati in formato JSON       |
+| `/getCurrentWeather`   | Permette di ottenere i dati meteo attuali di una certa località    |
+| `/getWeatherForecast`   | Permette di ottenre le previsioni meteo di una certa località |
+
+##Rotta */getMetadata*
+Descrizione rotta
+##Rotta */getCurrentWeather*
+Descrizione rotta
+##Rotta */getWeatherForecast*
+Descrizione rotta
+
+#TEST
+
+#Utilizzo
+Dopo aver avviato l'applicazione tutte le rotte implementate possono essere chiamate da qualsiasi browser o da un applicativo quale Postman nel segente modo:
+
+`localhost:8080/<nome_rotta>`
+
+Nota: 8080 è la porta standard, in caso di necessita puo essere modificata con una qualsisasi altra porta nel file: "nome-file-e-percorso"
+
+#Autori e sviluppo
+Il presente progetto è stato sviluppato all'interno del corso di Programmazione ad Oggetti Anno Accademico 2021/2022 da:
+- Federico Brunella
+-Leonardo Pieralisi
