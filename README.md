@@ -62,4 +62,4 @@ Nota: 8080 è la porta standard, in caso di necessita puo essere modificata con 
 # Autori e Sviluppo
 Il presente progetto è stato sviluppato all'interno del corso di Programmazione ad Oggetti Anno Accademico 2021/2022 da:
 - Federico Brunella
--Leonardo Pieralisi
+- Leonardo Pieralisi
