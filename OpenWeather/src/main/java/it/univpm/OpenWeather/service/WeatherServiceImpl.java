@@ -2,6 +2,7 @@ package it.univpm.OpenWeather.service;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,11 +30,11 @@ import it.univpm.OpenWeather.model.WeatherData;
 
 @Service
 public class WeatherServiceImpl implements WeatherService {
-	
+
 	private String apiKey = "0350270b1abadb862209083d1e1fa0bf";								//APIkey API OpenWeatherMap.org
 	private String forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=";		//URL richiesta meteo real-time
 	private String currentURL = "https://api.openweathermap.org/data/2.5/weather?q=";		//URL richiesta previsioni 5 giorni/3h
-	
+
 	//Metodo per ottenre in formato JSON i dati meteo in real time di una certa localita
 	@Override
 	public JSONObject getJSONCurrentWeather(String city) {
@@ -48,7 +49,7 @@ public class WeatherServiceImpl implements WeatherService {
 		return getJSONFromAPI(requestURL);
 
 	}
-	
+
 	//Inserisce negli oggetti del modello i dati meteo attuali necessari 
 	@Override
 	public City JSONCurrentToModelObj(JSONObject obj) {
@@ -66,11 +67,11 @@ public class WeatherServiceImpl implements WeatherService {
 		weatherData.setTempMin(((Number)main.get("temp_min")).doubleValue());
 		weatherData.setTempMax(((Number)main.get("temp_max")).doubleValue());
 		weatherData.setFeelsLike(((Number)main.get("feels_like")).doubleValue());
-		
+
 		Date date = new Date();
 		weatherData.setDt((int)new Timestamp(date.getTime()).getTime());
 		weatherData.setTxtDateTime((String)new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date().getTime()));
-		
+
 		weatherData.setMain((String)(((JSONObject)weather.get(0)).get("main")));
 		weatherData.setDescription((String)(((JSONObject)weather.get(0)).get("description")));
 
@@ -80,7 +81,7 @@ public class WeatherServiceImpl implements WeatherService {
 
 		return city;
 	}
-	
+
 	//Inserisce negli oggetti del modello i dati meteo delle previsioni necessari 
 	@Override
 	public City JSONForecastToModelObj(JSONObject obj) {
@@ -183,13 +184,13 @@ public class WeatherServiceImpl implements WeatherService {
 		return metadata;
 	}
 
-	
+
 	//Salva su un file (.json) i dati meteo attuali di una certa località
 	@Override
 	public void saveToFile(JSONObject obj) {
 		String timeStamp =new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date().getTime());
 		String city = ((String)obj.get("city"));
-		
+
 		String fileName = "localData/CurrentWeather_" + city + "_" + timeStamp +".json";//+timeStamp+".json";
 
 		try {
@@ -202,8 +203,8 @@ public class WeatherServiceImpl implements WeatherService {
 			System.out.println(e);
 		}
 	}
-	
-	
+
+
 	//Metodo privato utile a ottenere la risposta (JSONObject) di una chiamata alle API OpenWeather
 	private JSONObject getJSONFromAPI(String url) {
 		JSONObject obj = null;
@@ -228,9 +229,11 @@ public class WeatherServiceImpl implements WeatherService {
 
 
 		} catch (IOException | ParseException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("ERROR: I/O error or parse error");
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("ERROR");
 		}			
 
 		return obj;
