@@ -112,7 +112,6 @@ public class WeatherServiceImpl implements WeatherService {
 		}
 
 		city.setForecast(weatherData);
-		System.out.println(city.toString());
 		return city;
 	}
 
