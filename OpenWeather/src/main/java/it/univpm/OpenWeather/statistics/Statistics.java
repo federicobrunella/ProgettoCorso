@@ -5,27 +5,32 @@ import org.json.simple.JSONObject;
 import it.univpm.OpenWeather.model.City;
 
 /**
-* @author Leonardo Pieralisi
-*
-*/
+ * @author Leonardo Pieralisi
+ *
+ */
 
 public abstract class Statistics {
-	
+
 	protected double avgTempMin;
 	protected double avgTempMax;
 	protected double avgTemp;
 	protected double avgFeelsLike;
-	
+
 	protected City city;
-	
+
 	public abstract JSONObject getJSONStatistics();			//restituisce i risultati della statistica in formato JSON
 	public abstract void calculateStatistics();				//calcola le statistiche
-	
+
 	public String toString() {
-		//TODO: fare il toString()!
-		return "todo";
+		String output =
+				"Average Temperature: "+ this.avgTemp +"\n"
+						+ "Average Min Temperature: "+ this.avgTempMin +"\n"
+						+ "Average Max Temperature: "+ this.avgTempMax +"\n"
+						+"Average Feels Like: "+ this.avgFeelsLike +"\n" ;
+
+		return output;
 	}
-	
+
 	public boolean equals() {
 		//TODO: fare l'equals!
 		return true;
@@ -60,6 +65,6 @@ public abstract class Statistics {
 	public void setCity(City city) {
 		this.city = city;
 	}
-	
-	
+
+
 }

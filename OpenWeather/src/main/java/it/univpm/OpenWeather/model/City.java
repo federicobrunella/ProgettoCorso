@@ -3,21 +3,28 @@ package it.univpm.OpenWeather.model;
 import java.util.Vector;
 
 /**
-* @author Leonardo Pieralisi
-*
-*/
+ * @author Leonardo Pieralisi
+ *
+ */
 
 public class City {
-	
+
 	private String name;							//Nome città
 	private String ID;								//Numero identificativo della città
 	private String country;							//Nome paese
 	private Vector <WeatherData> forecast;			//Vettore con i dati delle previsioni ogni 3 ore per 5 gg
-	
-	
+
+
 	public String toString() {
-		//TODO: finire il toString!
-		return "todo";
+		String output = "Name: "+ this.name+"\n"
+				+"ID: "+this.ID+"\n"
+				+"Country: "+this.country+"\n";
+
+		for(WeatherData element: forecast) {
+			output+="------------------------------------ \n";
+			output+=element.toString();
+		}
+		return output;		
 	}
 	public boolean equals(Object obj) {
 		//TODO: finire l'equals!
@@ -47,5 +54,5 @@ public class City {
 	public void setForecast(Vector<WeatherData> forecast) {
 		this.forecast = forecast;
 	}
-	
+
 }

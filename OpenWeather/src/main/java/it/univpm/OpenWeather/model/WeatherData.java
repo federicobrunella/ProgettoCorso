@@ -1,12 +1,12 @@
 package it.univpm.OpenWeather.model;
 
 /**
-* @author Leonardo Pieralisi
-*
-*/
+ * @author Leonardo Pieralisi
+ *
+ */
 
 public class WeatherData {
-	
+
 	private int dt;									//DataTime in formato Unix
 	private String txtDateTime;						//DataTime in formato Testuale
 	private double temp;							//Temperatura
@@ -15,16 +15,23 @@ public class WeatherData {
 	private double tempMax;							//Temperatura massima
 	private String main;							//Condizione meteo 
 	private String description;						//Descrizione condizione meteo
-	
+
 	public String toString() {
-		//TODO: completare metodo toString!
-		return "toDo";
+		String output = "Date Time: "+this.dt+"\n"
+				+"Textual Date Time: "+this.txtDateTime+"\n"
+				+"Temperature: "+this.temp+"\n"
+				+"Feels Like: "+this.feelsLike+"\n"
+				+"Min Temperature: "+this.tempMin+"\n"
+				+"Max Temperature: "+this.tempMax+"\n"
+				+"Weather: "+this.main+"\n"
+				+"Weather Description: "+this.description+"\n";
+		return output;
 	}
 	public boolean equals(Object obj) {
 		//TODO: completare metodo equals!
 		return true;
 	}
-	
+
 	public int getDt() {
 		return dt;
 	}
@@ -73,5 +80,5 @@ public class WeatherData {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 }
