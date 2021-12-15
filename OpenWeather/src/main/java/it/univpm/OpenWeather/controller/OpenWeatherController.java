@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.univpm.OpenWeather.exceptions.CityNotFoundException;
 import it.univpm.OpenWeather.exceptions.WrongDaysValueException;
+import it.univpm.OpenWeather.exceptions.WrongTimeSlotValueException;
 import it.univpm.OpenWeather.filters.DailyFilter;
 import it.univpm.OpenWeather.filters.TimeSlotFilter;
 import it.univpm.OpenWeather.service.WeatherServiceImpl;
@@ -95,9 +96,27 @@ public class OpenWeatherController {
 	//	"days"= i giorni su cui calcolare le statistiche (da 1 a 5, prossimi giorni)
 	@RequestMapping(value = "/getDailytStats")
 	public ResponseEntity<Object> getDailyStats(@RequestParam(name="city") String city, @RequestParam(name="days") String days) {
-		JSONObject JSONForecast = weatherService.getJSONForecast(city);
-		DailyStatistics stats = new DailyStatistics(new DailyFilter(days),weatherService.JSONForecastToModelObj(JSONForecast));
-		return new ResponseEntity<>(stats.getJSONStatistics(), HttpStatus.OK);
+		try {
+			DailyFilter filter = new DailyFilter(days);
+			if(filter.getDays()>0 && filter.getDays()<=5)
+			{
+				JSONObject JSONForecast = weatherService.getJSONForecast(city);
+
+				if(JSONForecast != null) {
+					DailyStatistics stats = new DailyStatistics(filter,weatherService.JSONForecastToModelObj(JSONForecast));
+					return new ResponseEntity<>(stats.getJSONStatistics(), HttpStatus.OK);
+				} 
+				else
+					return new ResponseEntity<>(new CityNotFoundException("ERROR: City not found").message(), HttpStatus.BAD_REQUEST);
+			}
+			else
+				return new ResponseEntity<>(new WrongDaysValueException("ERROR: param days should be between 1 and 5").message(), HttpStatus.BAD_REQUEST);
+
+		} catch(NumberFormatException e) {
+			return new ResponseEntity<>("ERROR: param days should be a number", HttpStatus.BAD_REQUEST);
+		} catch(Exception e) {
+			return new ResponseEntity<>("ERROR", HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	//Rotta /getTimeSlotStats per ottenere le statistiche sui dati meteo con filtro giornaliero/fascia oraria, parametri accettati: 
@@ -106,9 +125,32 @@ public class OpenWeatherController {
 	//  "timeSlot" = fascia oraria (da 00 a 21, ogni 3h)
 	@RequestMapping(value = "/getTimeSlotStats")
 	public ResponseEntity<Object> getTimeSlotStats(@RequestParam(name="city") String city, @RequestParam(name="days") String days, @RequestParam(name="timeSlot") String timeSlot) {
-		JSONObject JSONForecast = weatherService.getJSONForecast(city);
-		TimeSlotStatistics stats = new TimeSlotStatistics(new TimeSlotFilter(timeSlot, days),weatherService.JSONForecastToModelObj(JSONForecast));
-		return new ResponseEntity<>(stats.getJSONStatistics(), HttpStatus.OK);
+		try {
+			TimeSlotFilter filter = new TimeSlotFilter(timeSlot, days);
+			if(filter.getDays()>0 && filter.getDays()<=5)
+			{
+				if(filter.getTimeSlot()>=0 && filter.getTimeSlot()<=21 && filter.getTimeSlot()%3 ==0) {
+					JSONObject JSONForecast = weatherService.getJSONForecast(city);
+
+					if(JSONForecast != null) {
+						TimeSlotStatistics stats = new TimeSlotStatistics(new TimeSlotFilter(timeSlot, days),weatherService.JSONForecastToModelObj(JSONForecast));
+						return new ResponseEntity<>(stats.getJSONStatistics(), HttpStatus.OK);
+					} 
+					else
+						return new ResponseEntity<>(new CityNotFoundException("ERROR: City not found").message(), HttpStatus.BAD_REQUEST);
+				}
+				else
+					return new ResponseEntity<>(new WrongTimeSlotValueException("ERROR: param timeSlot should be 00 or 03 or 06 ... or 21").message(), HttpStatus.BAD_REQUEST);
+					
+			}else
+				return new ResponseEntity<>(new WrongDaysValueException("ERROR: param days should be between 1 and 5").message(), HttpStatus.BAD_REQUEST);
+
+		} catch(NumberFormatException e) {
+			return new ResponseEntity<>("ERROR: param days should be a number", HttpStatus.BAD_REQUEST);
+		} catch(Exception e) {
+			return new ResponseEntity<>("ERROR", HttpStatus.BAD_REQUEST);
+		}
+
 	}
 
 }
