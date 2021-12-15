@@ -18,8 +18,31 @@ public abstract class Statistics {
 
 	protected City city;
 
-	public abstract JSONObject getJSONStatistics();			//restituisce i risultati della statistica in formato JSON
+	public Statistics(City city) {
+
+		this.city=city;
+	}
 	public abstract void calculateStatistics();				//calcola le statistiche
+
+	public JSONObject getJSONStatistics() {
+
+		calculateStatistics();
+		JSONObject statsJSON = new JSONObject();
+		JSONObject output = new JSONObject();
+
+		statsJSON.put("avg_Temp", this.avgTemp);
+		statsJSON.put("avg_TempMin", this.avgTempMin);
+		statsJSON.put("avg_TempMax", this.avgTempMax);
+		statsJSON.put("avg_FellsLike", this.avgFeelsLike);
+
+		output.put("stats", statsJSON);
+
+		output.put("city", this.city.getName());
+		output.put("id", this.city.getID());
+		output.put("country", this.city.getCountry());
+
+		return output;
+	}
 
 	public String toString() {
 		String output =
