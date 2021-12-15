@@ -27,6 +27,7 @@ public class TimeSlotStatistics extends Statistics {
 				this.avgFeelsLike += (city.getForecast().get(j)).getFeelsLike();
 				//System.out.println(extractHour((city.getForecast().get(j)).getDt()));
 			}
+			//System.out.println(extractHour((city.getForecast().get(j)).getDt()));
 		}
 
 		try {

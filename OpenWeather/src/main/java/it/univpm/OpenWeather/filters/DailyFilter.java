@@ -13,7 +13,7 @@ public class DailyFilter {
 	public DailyFilter(String days) {
 
 		this.days=Integer.valueOf(days);
-		this.counter=counter*8;
+		this.counter=this.days*8;
 	}
 
 	public int getDays() {

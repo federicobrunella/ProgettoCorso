@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import it.univpm.OpenWeather.exceptions.CityNotFoundException;
 import it.univpm.OpenWeather.exceptions.WrongDaysValueException;
 import it.univpm.OpenWeather.filters.DailyFilter;
+import it.univpm.OpenWeather.filters.TimeSlotFilter;
 import it.univpm.OpenWeather.service.WeatherServiceImpl;
 import it.univpm.OpenWeather.statistics.DailyStatistics;
+import it.univpm.OpenWeather.statistics.TimeSlotStatistics;
 
 /**
  * @author Federico Brunella
@@ -95,6 +97,17 @@ public class OpenWeatherController {
 	public ResponseEntity<Object> getDailyStats(@RequestParam(name="city") String city, @RequestParam(name="days") String days) {
 		JSONObject JSONForecast = weatherService.getJSONForecast(city);
 		DailyStatistics stats = new DailyStatistics(new DailyFilter(days),weatherService.JSONForecastToModelObj(JSONForecast));
+		return new ResponseEntity<>(stats.getJSONStatistics(), HttpStatus.OK);
+	}
+
+	//Rotta /getTimeSlotStats per ottenere le statistiche sui dati meteo con filtro giornaliero/fascia oraria, parametri accettati: 
+	//  "city"= la località su cui effettuare la ricerca
+	//	"days"= i giorni su cui calcolare le statistiche (da 1 a 5, prossimi giorni)
+	//  "timeSlot" = fascia oraria (da 00 a 21, ogni 3h)
+	@RequestMapping(value = "/getTimeSlotStats")
+	public ResponseEntity<Object> getTimeSlotStats(@RequestParam(name="city") String city, @RequestParam(name="days") String days, @RequestParam(name="timeSlot") String timeSlot) {
+		JSONObject JSONForecast = weatherService.getJSONForecast(city);
+		TimeSlotStatistics stats = new TimeSlotStatistics(new TimeSlotFilter(timeSlot, days),weatherService.JSONForecastToModelObj(JSONForecast));
 		return new ResponseEntity<>(stats.getJSONStatistics(), HttpStatus.OK);
 	}
 

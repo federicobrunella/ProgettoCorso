@@ -19,7 +19,6 @@ public abstract class Statistics {
 	protected City city;
 
 	public Statistics(City city) {
-
 		this.city=city;
 	}
 	public abstract void calculateStatistics();				//calcola le statistiche
