@@ -3,6 +3,11 @@ package it.univpm.OpenWeather.statistics;
 import it.univpm.OpenWeather.filters.DailyFilter;
 import it.univpm.OpenWeather.model.City;
 
+/**
+ * @author Leonardo Pieralisi
+ *
+ */
+
 public class DailyStatistics extends Statistics {
 
 	private DailyFilter filter;
