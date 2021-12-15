@@ -17,7 +17,12 @@ public class CityNotFoundException extends Exception {
 		this.msg=msg;
 	}
 	
-	public String message() {
+	public String getMsg(){
+		return this.msg;
+	}
+	
+	public String getMsg(String msg){
+		this.msg = msg;
 		return this.msg;
 	}
 	

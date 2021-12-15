@@ -26,6 +26,7 @@ public class City {
 		}
 		return output;		
 	}
+
 	public boolean equals(Object obj) {
 		//TODO: finire l'equals!
 		return true;

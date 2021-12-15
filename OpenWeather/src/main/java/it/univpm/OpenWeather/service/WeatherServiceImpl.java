@@ -20,6 +20,7 @@ import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
+import it.univpm.OpenWeather.exceptions.CityNotFoundException;
 import it.univpm.OpenWeather.model.City;
 import it.univpm.OpenWeather.model.WeatherData;
 
@@ -37,17 +38,27 @@ public class WeatherServiceImpl implements WeatherService {
 
 	//Metodo per ottenre in formato JSON i dati meteo in real time di una certa localita
 	@Override
-	public JSONObject getJSONCurrentWeather(String city) {
+	public JSONObject getJSONCurrentWeather(String city) throws CityNotFoundException{
 		String requestURL = currentURL + city + "&appid=" + apiKey;
-		return getJSONFromAPI(requestURL);
+		JSONObject obj = getJSONFromAPI(requestURL);
+		
+		if(obj==null)
+			throw new CityNotFoundException();
+		
+		return obj;
 	}
 
 	//Metodo per ottenre in formato JSON le previsioni meteo di una certa localita
 	@Override
-	public JSONObject getJSONForecast(String city) {
+	public JSONObject getJSONForecast(String city) throws CityNotFoundException{
+		
 		String requestURL = forecastURL + city + "&appid=" + apiKey;
-		return getJSONFromAPI(requestURL);
-
+		JSONObject obj = getJSONFromAPI(requestURL);
+		
+		if(obj==null)
+			throw new CityNotFoundException();
+		
+		return obj;
 	}
 
 	//Inserisce negli oggetti del modello i dati meteo attuali necessari 

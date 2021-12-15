@@ -38,119 +38,97 @@ public class OpenWeatherController {
 	//	"city"= la località su cui effettuare la ricerca
 	@RequestMapping(value = "/getCurrentWeather")
 	public ResponseEntity<Object> getCurrentWeather(@RequestParam(name="city") String city) {
-		JSONObject JSONCurrentWeather = weatherService.getJSONCurrentWeather(city);
-
-		if(JSONCurrentWeather != null) {
+		try {
+			
+			JSONObject JSONCurrentWeather = weatherService.getJSONCurrentWeather(city);
 			JSONObject output = weatherService.ModelObjToMyJSON(weatherService.JSONCurrentToModelObj(JSONCurrentWeather));
 			weatherService.saveToFile(output);
+
 			return new ResponseEntity<>(output, HttpStatus.OK);
-		}
-		else
-			return new ResponseEntity<>(new CityNotFoundException("ERROR: City not found").message(), HttpStatus.BAD_REQUEST);	
+
+		} catch(CityNotFoundException e) {
+			System.out.println("Error: city not found");
+			return new ResponseEntity<>(e.getMsg("Error: city not found"), HttpStatus.BAD_REQUEST); 
+		} catch(Exception e) {
+			System.out.println("Error");
+			return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST); 
+		}	
 
 	}
 
 	//Rotta /getWeatherForecast per ottenre le previsioni meteo, parametri accettati: 
 	//	"city"= la località su cui effettuare la ricerca 
 	@RequestMapping(value = "/getWeatherForecast")
-	public ResponseEntity<Object> getForecastbyCity(@RequestParam(name="city") String city) {
-		JSONObject JSONForecast = weatherService.getJSONForecast(city);
-
-		if(JSONForecast != null)	
-			return new ResponseEntity<>(weatherService.ModelObjToMyJSON(weatherService.JSONForecastToModelObj(JSONForecast)), HttpStatus.OK);
-		else
-			return new ResponseEntity<>(new CityNotFoundException("ERROR: City not found").message(), HttpStatus.BAD_REQUEST);	
-	}
-
-	//Rotta /getStatistics per ottenere le statistiche sui dati meteo, parametri accettati: 
-	//  "city"= la località su cui effettuare la ricerca
-	//	"days"= i giorni su cui calcolare le statistiche (da 1 a 5, prossimi giorni)
-	/*@RequestMapping(value = "/getStatistics")
-	public ResponseEntity<Object> getStatistics(@RequestParam(name="city") String city, @RequestParam(name="days", defaultValue="5") String days) {
+	public ResponseEntity<Object> getForecastbyCity(@RequestParam(name="city") String city) throws CityNotFoundException {
 		try {
-			if(Integer.valueOf(days)>0 && Integer.valueOf(days)<=5) {
-				JSONObject JSONForecast = weatherService.getJSONForecast(city);
+			
+			JSONObject JSONForecast = weatherService.getJSONForecast(city);	
 
-				if(JSONForecast != null) {
-					StatisticsImpl stats = new StatisticsImpl(weatherService.JSONForecastToModelObj(JSONForecast), days);
-					stats.calculateStatistics();
-					return new ResponseEntity<>(stats.getJSONStatistics(), HttpStatus.OK);
-				}
-				else
-					return new ResponseEntity<>(new CityNotFoundException("ERROR: City not found").message(), HttpStatus.BAD_REQUEST);	
+			return new ResponseEntity<>(weatherService.ModelObjToMyJSON(weatherService.JSONForecastToModelObj(JSONForecast)), HttpStatus.OK);
 
-			}else
-				return new ResponseEntity<>(new WrongDaysValueException("ERROR: param days should be between 1 and 5").message(), HttpStatus.BAD_REQUEST);		
-
-		}
-		catch(NumberFormatException e) {
-			return new ResponseEntity<>("ERROR: param days should be a number", HttpStatus.BAD_REQUEST);
-		}
-		catch(Exception e) {
-			return new ResponseEntity<>("ERROR", HttpStatus.BAD_REQUEST);
-		}
-	}*/
+		} catch(CityNotFoundException e) {
+			System.out.println("Error: city not found");
+			return new ResponseEntity<>(e.getMsg("Error: city not found"), HttpStatus.BAD_REQUEST); 
+		} catch(Exception e) {
+			System.out.println("Error");
+			return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST); 
+		}	
+	}
 
 	//Rotta /getDailyStats per ottenere le statistiche sui dati meteo con filtro giornaliero, parametri accettati: 
 	//  "city"= la località su cui effettuare la ricerca
 	//	"days"= i giorni su cui calcolare le statistiche (da 1 a 5, prossimi giorni)
 	@RequestMapping(value = "/getDailytStats")
-	public ResponseEntity<Object> getDailyStats(@RequestParam(name="city") String city, @RequestParam(name="days") String days) {
+	public ResponseEntity<Object> getDailyStats(@RequestParam(name="city") String city, @RequestParam(name="days") String days)
+			throws WrongDaysValueException, CityNotFoundException{
 		try {
-			DailyFilter filter = new DailyFilter(days);
-			if(filter.getDays()>0 && filter.getDays()<=5)
-			{
-				JSONObject JSONForecast = weatherService.getJSONForecast(city);
 
-				if(JSONForecast != null) {
-					DailyStatistics stats = new DailyStatistics(filter,weatherService.JSONForecastToModelObj(JSONForecast));
-					return new ResponseEntity<>(stats.getJSONStatistics(), HttpStatus.OK);
-				} 
-				else
-					return new ResponseEntity<>(new CityNotFoundException("ERROR: City not found").message(), HttpStatus.BAD_REQUEST);
-			}
-			else
-				return new ResponseEntity<>(new WrongDaysValueException("ERROR: param days should be between 1 and 5").message(), HttpStatus.BAD_REQUEST);
+			DailyFilter filter = new DailyFilter(days);
+			JSONObject JSONForecast = weatherService.getJSONForecast(city);
+			DailyStatistics stats = new DailyStatistics(filter,weatherService.JSONForecastToModelObj(JSONForecast));
+			return new ResponseEntity<>(stats.getJSONStatistics(), HttpStatus.OK);
 
 		} catch(NumberFormatException e) {
-			return new ResponseEntity<>("ERROR: param days should be a number", HttpStatus.BAD_REQUEST);
+			System.out.println("Error: param days must be a number");
+			return new ResponseEntity<>("Error: param days must be a number", HttpStatus.BAD_REQUEST);
+		} catch(WrongDaysValueException e) {
+			System.out.println(e.getMsg("Error: param days must be between 1 and 5"));
+			return new ResponseEntity<>(e.getMsg("Error: param days must be between 1 and 5"), HttpStatus.BAD_REQUEST);
+		} catch(CityNotFoundException e) {
+			System.out.println("Error: city not found");
+			return new ResponseEntity<>(e.getMsg("Error: city not found"), HttpStatus.BAD_REQUEST); 
 		} catch(Exception e) {
-			return new ResponseEntity<>("ERROR", HttpStatus.BAD_REQUEST);
-		}
+			System.out.println("Error");
+			return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST); 
+		}	
+
 	}
+
 
 	//Rotta /getTimeSlotStats per ottenere le statistiche sui dati meteo con filtro giornaliero/fascia oraria, parametri accettati: 
 	//  "city"= la località su cui effettuare la ricerca
 	//	"days"= i giorni su cui calcolare le statistiche (da 1 a 5, prossimi giorni)
-	//  "timeSlot" = fascia oraria (da 00 a 21, ogni 3h)
+	//  "timeSlot" = fascia oraria (da 00 a 21, ogni 3h, quindi ammessi come parametri: 00, 03, 06, ..., 21)
 	@RequestMapping(value = "/getTimeSlotStats")
 	public ResponseEntity<Object> getTimeSlotStats(@RequestParam(name="city") String city, @RequestParam(name="days") String days, @RequestParam(name="timeSlot") String timeSlot) {
 		try {
-			TimeSlotFilter filter = new TimeSlotFilter(timeSlot, days);
-			if(filter.getDays()>0 && filter.getDays()<=5)
-			{
-				if(filter.getTimeSlot()>=0 && filter.getTimeSlot()<=21 && filter.getTimeSlot()%3 ==0) {
-					JSONObject JSONForecast = weatherService.getJSONForecast(city);
 
-					if(JSONForecast != null) {
-						TimeSlotStatistics stats = new TimeSlotStatistics(new TimeSlotFilter(timeSlot, days),weatherService.JSONForecastToModelObj(JSONForecast));
-						return new ResponseEntity<>(stats.getJSONStatistics(), HttpStatus.OK);
-					} 
-					else
-						return new ResponseEntity<>(new CityNotFoundException("ERROR: City not found").message(), HttpStatus.BAD_REQUEST);
-				}
-				else
-					return new ResponseEntity<>(new WrongTimeSlotValueException("ERROR: param timeSlot should be 00 or 03 or 06 ... or 21").message(), HttpStatus.BAD_REQUEST);
-					
-			}else
-				return new ResponseEntity<>(new WrongDaysValueException("ERROR: param days should be between 1 and 5").message(), HttpStatus.BAD_REQUEST);
+			TimeSlotFilter filter = new TimeSlotFilter(timeSlot, days);
+			JSONObject JSONForecast = weatherService.getJSONForecast(city);
+			TimeSlotStatistics stats = new TimeSlotStatistics(filter,weatherService.JSONForecastToModelObj(JSONForecast));
+
+			return new ResponseEntity<>(stats.getJSONStatistics(), HttpStatus.OK);
 
 		} catch(NumberFormatException e) {
 			return new ResponseEntity<>("ERROR: param days should be a number", HttpStatus.BAD_REQUEST);
+		} catch(WrongDaysValueException e) {
+			return new ResponseEntity<>(e.getMsg("Error: param days must be between 1 and 5"), HttpStatus.BAD_REQUEST);
+		} catch(WrongTimeSlotValueException e) {
+			return new ResponseEntity<>(e.getMsg("Error: param timeSlot should be 00 or 03 or 06 ... or 21"), HttpStatus.BAD_REQUEST);
+		} catch(CityNotFoundException e) {
+			return new ResponseEntity<>(e.getMsg("Error: city not found"), HttpStatus.BAD_REQUEST); 
 		} catch(Exception e) {
 			return new ResponseEntity<>("ERROR", HttpStatus.BAD_REQUEST);
 		}
-
 	}
-
 }
