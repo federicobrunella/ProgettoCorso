@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.univpm.OpenWeather.exceptions.CityNotFoundException;
 import it.univpm.OpenWeather.exceptions.WrongDaysValueException;
+import it.univpm.OpenWeather.filters.DailyFilter;
 import it.univpm.OpenWeather.service.WeatherServiceImpl;
-import it.univpm.OpenWeather.statistics.StatisticsImpl;
+import it.univpm.OpenWeather.statistics.DailyStatistics;
 
 /**
  * @author Federico Brunella
@@ -61,7 +62,7 @@ public class OpenWeatherController {
 	//Rotta /getStatistics per ottenere le statistiche sui dati meteo, parametri accettati: 
 	//  "city"= la località su cui effettuare la ricerca
 	//	"days"= i giorni su cui calcolare le statistiche (da 1 a 5, prossimi giorni)
-	@RequestMapping(value = "/getStatistics")
+	/*@RequestMapping(value = "/getStatistics")
 	public ResponseEntity<Object> getStatistics(@RequestParam(name="city") String city, @RequestParam(name="days", defaultValue="5") String days) {
 		try {
 			if(Integer.valueOf(days)>0 && Integer.valueOf(days)<=5) {
@@ -85,8 +86,16 @@ public class OpenWeatherController {
 		catch(Exception e) {
 			return new ResponseEntity<>("ERROR", HttpStatus.BAD_REQUEST);
 		}
-	}
+	}*/
 
-	//TODO: richiesta post per statistiche con filtro più avanzato( /getAdvancedStats)
+	//Rotta /getDailyStats per ottenere le statistiche sui dati meteo con filtro giornaliero, parametri accettati: 
+	//  "city"= la località su cui effettuare la ricerca
+	//	"days"= i giorni su cui calcolare le statistiche (da 1 a 5, prossimi giorni)
+	@RequestMapping(value = "/getDailytStats")
+	public ResponseEntity<Object> getDailyStats(@RequestParam(name="city") String city, @RequestParam(name="days") String days) {
+		JSONObject JSONForecast = weatherService.getJSONForecast(city);
+		DailyStatistics stats = new DailyStatistics(new DailyFilter(days),weatherService.JSONForecastToModelObj(JSONForecast));
+		return new ResponseEntity<>(stats.getJSONStatistics(), HttpStatus.OK);
+	}
 
 }
