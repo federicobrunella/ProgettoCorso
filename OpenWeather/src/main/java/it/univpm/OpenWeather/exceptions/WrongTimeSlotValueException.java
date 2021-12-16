@@ -8,7 +8,7 @@ package it.univpm.OpenWeather.exceptions;
  *
  */
 public class WrongTimeSlotValueException extends Exception{
-	private String msg;
+	private String msg = "Error: param timeSlot must be 00 or 03 or 06 ... or 21";
 
 	public WrongTimeSlotValueException(){
 		super();

@@ -6,7 +6,7 @@ package it.univpm.OpenWeather.exceptions;
  */
 public class CityNotFoundException extends Exception {
 
-	private String msg;
+	private String msg = "Error: city not found";
 
 	public CityNotFoundException() {
 		super();

@@ -6,7 +6,7 @@ package it.univpm.OpenWeather.exceptions;
  */
 public class WrongDaysValueException extends Exception{
 	
-	private String msg;
+	private String msg = "Error: param days must be between 1 and 5";
 	
 	public WrongDaysValueException(){
 		super();

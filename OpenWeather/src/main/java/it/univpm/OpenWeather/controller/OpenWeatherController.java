@@ -39,7 +39,7 @@ public class OpenWeatherController {
 	@RequestMapping(value = "/getCurrentWeather")
 	public ResponseEntity<Object> getCurrentWeather(@RequestParam(name="city") String city) {
 		try {
-			
+
 			JSONObject JSONCurrentWeather = weatherService.getJSONCurrentWeather(city);
 			JSONObject output = weatherService.ModelObjToMyJSON(weatherService.JSONCurrentToModelObj(JSONCurrentWeather));
 			weatherService.saveToFile(output);
@@ -47,10 +47,8 @@ public class OpenWeatherController {
 			return new ResponseEntity<>(output, HttpStatus.OK);
 
 		} catch(CityNotFoundException e) {
-			System.out.println("Error: city not found");
-			return new ResponseEntity<>(e.getMsg("Error: city not found"), HttpStatus.BAD_REQUEST); 
+			return new ResponseEntity<>(e.getMsg(), HttpStatus.BAD_REQUEST); 
 		} catch(Exception e) {
-			System.out.println("Error");
 			return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST); 
 		}	
 
@@ -61,16 +59,15 @@ public class OpenWeatherController {
 	@RequestMapping(value = "/getWeatherForecast")
 	public ResponseEntity<Object> getForecastbyCity(@RequestParam(name="city") String city) throws CityNotFoundException {
 		try {
-			
+
 			JSONObject JSONForecast = weatherService.getJSONForecast(city);	
 
 			return new ResponseEntity<>(weatherService.ModelObjToMyJSON(weatherService.JSONForecastToModelObj(JSONForecast)), HttpStatus.OK);
 
 		} catch(CityNotFoundException e) {
 			System.out.println("Error: city not found");
-			return new ResponseEntity<>(e.getMsg("Error: city not found"), HttpStatus.BAD_REQUEST); 
+			return new ResponseEntity<>(e.getMsg(), HttpStatus.BAD_REQUEST); 
 		} catch(Exception e) {
-			System.out.println("Error");
 			return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST); 
 		}	
 	}
@@ -89,16 +86,12 @@ public class OpenWeatherController {
 			return new ResponseEntity<>(stats.getJSONStatistics(), HttpStatus.OK);
 
 		} catch(NumberFormatException e) {
-			System.out.println("Error: param days must be a number");
-			return new ResponseEntity<>("Error: param days must be a number", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("ERROR: param should be a number", HttpStatus.BAD_REQUEST);
 		} catch(WrongDaysValueException e) {
-			System.out.println(e.getMsg("Error: param days must be between 1 and 5"));
-			return new ResponseEntity<>(e.getMsg("Error: param days must be between 1 and 5"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMsg(), HttpStatus.BAD_REQUEST);
 		} catch(CityNotFoundException e) {
-			System.out.println("Error: city not found");
-			return new ResponseEntity<>(e.getMsg("Error: city not found"), HttpStatus.BAD_REQUEST); 
+			return new ResponseEntity<>(e.getMsg(), HttpStatus.BAD_REQUEST); 
 		} catch(Exception e) {
-			System.out.println("Error");
 			return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST); 
 		}	
 
@@ -120,13 +113,13 @@ public class OpenWeatherController {
 			return new ResponseEntity<>(stats.getJSONStatistics(), HttpStatus.OK);
 
 		} catch(NumberFormatException e) {
-			return new ResponseEntity<>("ERROR: param days should be a number", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("ERROR: param should be a number", HttpStatus.BAD_REQUEST);
 		} catch(WrongDaysValueException e) {
-			return new ResponseEntity<>(e.getMsg("Error: param days must be between 1 and 5"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMsg(), HttpStatus.BAD_REQUEST);
 		} catch(WrongTimeSlotValueException e) {
-			return new ResponseEntity<>(e.getMsg("Error: param timeSlot should be 00 or 03 or 06 ... or 21"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMsg(), HttpStatus.BAD_REQUEST);
 		} catch(CityNotFoundException e) {
-			return new ResponseEntity<>(e.getMsg("Error: city not found"), HttpStatus.BAD_REQUEST); 
+			return new ResponseEntity<>(e.getMsg(), HttpStatus.BAD_REQUEST); 
 		} catch(Exception e) {
 			return new ResponseEntity<>("ERROR", HttpStatus.BAD_REQUEST);
 		}
