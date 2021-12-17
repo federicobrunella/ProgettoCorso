@@ -3,13 +3,14 @@ package it.univpm.OpenWeather.statistics;
 import org.json.simple.JSONObject;
 
 import it.univpm.OpenWeather.model.City;
+import it.univpm.OpenWeather.model.WeatherData;
 
 /**
  * @author Leonardo Pieralisi
  *
  */
 
-public abstract class Statistics {
+public class Statistics {
 
 	protected double avgTempMin;
 	protected double avgTempMax;
@@ -21,11 +22,30 @@ public abstract class Statistics {
 	public Statistics(City city) {
 		this.city=city;
 	}
-	public abstract void calculateStatistics();				//calcola le statistiche
+	public void calculateStatistics() {
+
+		for(WeatherData singleWeatherData : this.city.getForecast()) {
+			this.avgTemp += singleWeatherData.getTemp();
+			this.avgTempMin += singleWeatherData.getTempMin();
+			this.avgTempMax += singleWeatherData.getTempMax();
+			this.avgFeelsLike += singleWeatherData.getFeelsLike();
+		}
+
+		try {
+			this.avgTempMin = this.avgTempMin/this.city.getForecast().size();
+			this.avgTempMax = this.avgTempMax/this.city.getForecast().size();
+			this.avgTemp = this.avgTemp/this.city.getForecast().size();
+			this.avgFeelsLike = this.avgFeelsLike/this.city.getForecast().size();
+		}
+		catch (ArithmeticException e){
+			System.out.println("Errore divisione per zero! passato parametro invalido");
+		}
+	}
 
 	public JSONObject getJSONStatistics() {
 
 		calculateStatistics();
+
 		JSONObject statsJSON = new JSONObject();
 		JSONObject output = new JSONObject();
 
@@ -44,6 +64,7 @@ public abstract class Statistics {
 	}
 
 	public String toString() {
+
 		String output =
 				"Average Temperature: "+ this.avgTemp +"\n"
 						+ "Average Min Temperature: "+ this.avgTempMin +"\n"
@@ -87,6 +108,5 @@ public abstract class Statistics {
 	public void setCity(City city) {
 		this.city = city;
 	}
-
 
 }
