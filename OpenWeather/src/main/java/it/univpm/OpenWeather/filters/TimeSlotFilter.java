@@ -21,7 +21,7 @@ public class TimeSlotFilter extends DailyFilter {
 
 		this.timeSlot=Integer.valueOf(timeSlot);
 
-		if(this.timeSlot<1 || this.timeSlot>21)
+		if(this.timeSlot<=0 || this.timeSlot>21)
 			throw new WrongTimeSlotValueException();
 		if(this.timeSlot%3!=0)
 			throw new WrongTimeSlotValueException();
