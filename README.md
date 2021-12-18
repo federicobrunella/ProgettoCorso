@@ -1,6 +1,5 @@
 # Progetto OpenWeather
 
-**Table of Contents**
 - [Introduzione](#id-section1)
 - [API OpenWeatherMap.org](#id-section2)
 - [Utilizzo](#id-section3)
@@ -15,7 +14,7 @@ Il progetto è un applicazione Spring che permette di ottenere informazioni e st
 Le informazioni provengono dalle API di OpenWeatherMap.org (inserire link), sono disponibili tramite la nostra applicazione:
 - Informazioni sulle condizioni meteo attuali.
 - previsioni ogni 3 ore per i successivi 5 giorni.
-- Statistiche sulle previsioni meteo su: temperatura reale, percepita, massima e minima.
+- Statistiche sulle previsioni meteo relative a: temperatura reale, percepita, massima e minima.
 
 
 <div id='id-section2'/>
@@ -51,9 +50,9 @@ Nota: 8080 è la porta standard, in caso di necessità puo essere modificata con
 | ------------- | ---- | ------------------------------ |
 | `/getMetadata`      | GET | Permette di ottenre i metadati in formato JSON       |
 | `/getCurrentWeather`   | GET | Permette di ottenere i dati meteo attuali di una certa località    |
-| `/getWeatherForecast`   | GET | Permette di ottenre le previsioni meteo di una certa località |
-| `/getDailytStats`   | GET | Permette di ottenre le previsioni meteo di una certa località |
-| `/getTimeSlotStats`   | GET | Permette di ottenre le previsioni meteo di una certa località |
+| `/getWeatherForecast`   | GET | Permette di ottenere le previsioni meteo di una certa località |
+| `/getDailytStats`   | GET | Permette di ottenere le statistiche sulle previsioni meteo di una certa località con filtraggio su base giornaliera|
+| `/getTimeSlotStats`   | GET | Permette di ottenere le statistiche sulle previsioni meteo di una certa località con filtraggio per fascia oraria e su base giornaliera|
 
 ## Rotta */getMetadata*
 Questa rotta permette di visualizzare i metadati in formato JSON.
@@ -64,8 +63,14 @@ Ovvero una descrizione di tutti gli attributi che restituisce e dei reltivi tipi
 Con questa rotta si possono visualizare in formato JSON le informazioni relative alle condizioni meteo attuali di una località specificata nella richiesta.
 Qesta richiesta accetta il parametro 'city' per specificare la località su cui effettuare la richiesta.
 
+Riassumendo i parametri accettati sono:
+| Parametro  | Descrizione |
+| ------------- | ------------- |
+| `city`  | località per la quale ottenere i dati meteo  |
+
 ### Esempio
 Rotta: `localhost:8081/getCurrentWeather?city=Jesi`
+
 La risposta a questa richiesta sarà un JSON contenente i dati meteo attuali per la città di Jesi(AN):
 
 ```json
@@ -92,8 +97,14 @@ La risposta a questa richiesta sarà un JSON contenente i dati meteo attuali per
 Con questa rotta posso ottenere in formato JSON le previsioni meteo per la città specificata nella richiesta.
 Qesta richiesta accetta il parametro 'city' per specificare la località su cui effettuare la richiesta.
 
+Riassumendo i parametri accettati sono:
+| Parametro  | Descrizione |
+| ------------- | ------------- |
+| `city`  | località per la quale ottenere i dati meteo  |
+
 ### Esempio
 Rotta: `localhost:8081/getWeatherForecast?city=Jesi`
+
 La risposta a questa richiesta sarà un JSON contenente le previsioni ogni 3 ore per i successivi 5 giorni relative la città di Jesi(AN):
 
 ```json
@@ -135,8 +146,15 @@ Con questa rotta si possono ottenere le statistiche relative ai valori di temper
 In particolare con questa richiesta posso filtrare i dati su cui effettuare le statistiche su base giornaliera, nello specifico questa rotta, oltre al parametro `city`, accetta il parametro `days` che indica l'intervallo temporale su cui le statistiche verrano calcolate.
 Ad esempio se nella richiesta è specificato il parametro `days=2` i valori medi verranno calcolati per i successivi 2 giorni dal momento in cui viene effettuata la richiesta.
 
+Riassumendo i parametri accettati sono:
+| Parametro  | Descrizione |
+| ------------- | ------------- |
+| `city`  | località per la quale ottenere i dati meteo  |
+| `days`  | filtro su base giornaliera (accettati valori da 1 a 5)  |
+
 ### Esempio
 Rotta: `localhost:8081/getDailytStats?city=Jesi&days=2`
+
 La risposta a questa richiesta sarà un JSON contenente le statistiche relative la città di Jesi(AN) calcolate per i successivi 2 giorni dal momento della richiesta:
 
 ```json
@@ -154,7 +172,34 @@ La risposta a questa richiesta sarà un JSON contenente le statistiche relative 
 ```
 
 ## Rotta */getTimeSlotStats*
-Descrizione rotta
+Con questa rotta si possono ottenere le statistiche relative ai valori di temperatura reale e temperatura percepita.
+In particolare con questa richiesta posso filtrare su base giornaliera e su fascia oraria, la rotta accetta quindi i parametri:
+| Parametro  | Descrizione |
+| ------------- | ------------- |
+| `city`  | località per la quale ottenere i dati meteo  |
+| `days`  | filtro su base giornaliera (accettati valori da 1 a 5)  |
+| `timeSlot`  | filtro per fascia oraria (accettati parametri 00, 03, 06, ..., 21) |
+
+### Esempio
+Rotta: `localhost:8081/getTimeSlotStats?city=Jesi&days=4&timeSlot=6`
+
+La risposta a questa richiesta sarà un JSON contenente le statistiche meteo calcolate per 4 giorni dal momento della richiesta sulla fascia oraria delle 06:00 (le sei del mattino), il tutto relativo alla città di Jesi(AN).
+
+```json
+{
+    "country": "IT",
+    "stats": {
+        "avg_TempMax": 279.00749999999994,
+        "avg_FellsLike": 277.93,
+        "avg_TempMin": 279.00749999999994,
+        "avg_Temp": 279.00749999999994
+    },
+    "city": "Jesi",
+    "id": "6541474"
+}
+```
+
+Nota: il parametro `timeSlot` indica quindi l'intervallo orario al quale l'utente è interessato, osservato che l'API di OpenWeatherMap.org restituisce le previsioni ogni 3 ore sempre a partire dalle 00:00, otteniamo che le fascie orarie disponibili sono quelle che vanno dalle 00 alle 21 (00, 03, 06, ..., 21)
 
 <div id='id-section5'/>
 
