@@ -65,7 +65,7 @@ Con questa rotta si possono visualizare in formato JSON le informazioni relative
 Qesta richiesta accetta il parametro 'city' per specificare la località su cui effettuare la richiesta.
 
 ### Esempio
-Rotta: `localhost:8081/getCurrentWeather?city=Jesi`
+Rotta: `localhost:8081/getCurrentWeather?city=Jesi`.
 La risposta a questa richiesta sarà un JSON contenente i dati meteo attuali per la città di Jesi(AN):
 
 ```json
