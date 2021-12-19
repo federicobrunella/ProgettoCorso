@@ -141,7 +141,7 @@ La risposta a questa richiesta sarà un JSON contenente le previsioni ogni 3 ore
     "ID": "6541474"
 }
 ```
-Nota: per migliorare la leggibilità del documento nell'esempio di risposta sopra, il JSON è stato tagliato e riporta solo la prima previsione disponibile e l'ultima, normalmente il json che si ottiene come risposta conterrebbe nel JSONArray contenente le previsioni 40 JSON.
+Nota: per migliorare la leggibilità del documento nell'esempio di risposta sopra, il JSON è stato tagliato e riporta solo la prima previsione disponibile e l'ultima, normalmente il json che si ottiene come risposta conterrebbe, nel JSONArray contenente le previsioni, 40 JSON.
 
 ## Rotta */getDailytStats*
 Con questa rotta si possono ottenere le statistiche relative ai valori di temperatura reale e temperatura percepita.
