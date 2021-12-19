@@ -11,7 +11,7 @@
 
 # Introduzione
 Il progetto è un applicazione Spring che permette di ottenere informazioni e statistiche sulle temperature di una specificata località.
-Le informazioni provengono dalle API di OpenWeatherMap.org (inserire link), sono disponibili tramite la nostra applicazione:
+Le informazioni provengono dalle API di [OpenWeatherMap.org](https://openweathermap.org/), sono disponibili tramite la nostra applicazione:
 - Informazioni sulle condizioni meteo attuali.
 - previsioni ogni 3 ore per i successivi 5 giorni.
 - Statistiche sulle previsioni meteo relative a: temperatura reale, percepita, massima e minima.
@@ -20,16 +20,16 @@ Le informazioni provengono dalle API di OpenWeatherMap.org (inserire link), sono
 <div id='id-section2'/>
 
 # API OpenWeatherMap.org
-OpenWeatherMap.org mette a disposizione un numeroso set di API sia gratuite che a pagamento.
+[OpenWeatherMap.org](https://openweathermap.org/) mette a disposizione un numeroso set di API sia gratuite che a pagamento.
 Il nostro progetto sfrutta esclusivamente API gratuite, in particolare:
 - Current Weather Data: permette di ottenere le informazioni meteo correnti di una qualsisasi località.
 - 5 day/3 hour Forecast: permette di ottenere previsioni meteo di una qualsiasi localittà per i prossimi 5 giorni ad intervalli di 3 ore.
 Per usufruire delle API gratuite è necessario ottenere un API-key, anch'essa gratutita, registrandosi su OpenWeatherMap.og.
-Un'API-key è già inserita all'interno del codice per garantirne il funzionamento, per ogni necessità può essere modificata nel file WeatherServiceimpl.java:
+Un'API-key è già inserita all'interno del codice per garantirne il funzionamento, per ogni necessità può essere modificata nel file [WeatherServiceimpl.java](https://github.com/federicobrunella/ProgettoCorso/blob/main/OpenWeather/src/main/java/it/univpm/OpenWeather/service/WeatherServiceImpl.java):
 
-`private String apiKey = "0***************************************f";`
-
-(TODO: aggiungere file di configurazione)
+```java
+ private String apiKey = "0***************************************f";
+```
 
 
 <div id='id-section3'/>
@@ -39,7 +39,7 @@ Dopo aver avviato l'applicazione tutte le rotte implementate possono essere chia
 
 `localhost:8080/<nome_rotta>`
 
-Nota: 8080 è la porta standard, in caso di necessità puo essere modificata con una qualsisasi altra porta nel file di configurazione: "nome-file-e-percorso + link"
+Nota: 8080 è la porta standard, in caso di necessità puo essere modificata con una qualsisasi altra porta nel file di configurazione: [application.properties](https://github.com/federicobrunella/ProgettoCorso/blob/main/OpenWeather/src/main/resources/application.properties)
 
 
 <div id='id-section4'/>
@@ -69,7 +69,7 @@ Riassumendo i parametri accettati sono:
 | `city`  | località per la quale ottenere i dati meteo  |
 
 ### Esempio
-Rotta: `localhost:8081/getCurrentWeather?city=Jesi`
+Rotta: `localhost:8080/getCurrentWeather?city=Jesi`
 
 La risposta a questa richiesta sarà un JSON contenente i dati meteo attuali per la città di Jesi(AN):
 
@@ -103,7 +103,7 @@ Riassumendo i parametri accettati sono:
 | `city`  | località per la quale ottenere i dati meteo  |
 
 ### Esempio
-Rotta: `localhost:8081/getWeatherForecast?city=Jesi`
+Rotta: `localhost:8080/getWeatherForecast?city=Jesi`
 
 La risposta a questa richiesta sarà un JSON contenente le previsioni ogni 3 ore per i successivi 5 giorni relative la città di Jesi(AN):
 
@@ -153,7 +153,7 @@ Riassumendo i parametri accettati sono:
 | `days`  | filtro su base giornaliera (accettati valori da 1 a 5)  |
 
 ### Esempio
-Rotta: `localhost:8081/getDailytStats?city=Jesi&days=2`
+Rotta: `localhost:8080/getDailytStats?city=Jesi&days=2`
 
 La risposta a questa richiesta sarà un JSON contenente le statistiche relative la città di Jesi(AN) calcolate per i successivi 2 giorni dal momento della richiesta:
 
@@ -204,10 +204,13 @@ Nota: il parametro `timeSlot` indica quindi l'intervallo orario al quale l'utent
 <div id='id-section5'/>
 
 # TEST
+Sono stati implementati 2 Unit Test sviluppati in JUnit5:
+- StatisticsTest: test per verificare il corretto funzionamento della classe relativa al calcolo delle statistiche.
+- WrongDaysValueException: test per verificare il funzionamento delle eccezioni relative al filtro su base giornaliera.
 
 <div id='id-section6'/>
 
 # Autori e Sviluppo
 Il presente progetto è stato sviluppato all'interno del corso di Programmazione ad Oggetti (2021/2022) da:
-- Federico Brunella
-- Leonardo Pieralisi
+- [Federico Brunella](https://github.com/federicobrunella)
+- [Leonardo Pieralisi](https://github.com/LeonardoPieralisi)
