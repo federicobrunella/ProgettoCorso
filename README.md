@@ -207,8 +207,9 @@ Nota: il parametro `timeSlot` indica quindi l'intervallo orario al quale l'utent
 
 # TEST
 Sono stati implementati 2 Unit Test sviluppati in JUnit5:
-- StatisticsTest: test per verificare il corretto funzionamento della classe relativa al calcolo delle statistiche.
-- WrongDaysValueException: test per verificare il funzionamento delle eccezioni relative al filtro su base giornaliera.
+- [StatisticsTest](https://github.com/federicobrunella/ProgettoCorso/blob/main/OpenWeather/src/test/java/it/univpm/OpenWeather/StatisticsTest.java): test per verificare il corretto funzionamento della classe relativa al calcolo delle statistiche.
+- [WrongDaysValueException](https://github.com/federicobrunella/ProgettoCorso/blob/main/OpenWeather/src/test/java/it/univpm/OpenWeather/WrongDaysValueExceptionTest.java): test per verificare il funzionamento delle eccezioni relative al filtro su base giornaliera.
+- [WrongTimeSlotValueException](https://github.com/federicobrunella/ProgettoCorso/blob/main/OpenWeather/src/test/java/it/univpm/OpenWeather/WrongTimeSlotValueExceptionTest.java): test per verificare il funzionamento delle eccezioni relative al filtro su fascia oraria.
 
 <div id='id-section6'/>
 
