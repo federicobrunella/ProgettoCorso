@@ -20,10 +20,12 @@ Le informazioni provengono dalle API di [OpenWeatherMap.org](https://openweather
 <div id='id-section2'/>
 
 # API OpenWeatherMap.org
-[OpenWeatherMap.org](https://openweathermap.org/) mette a disposizione un numeroso set di API sia gratuite che a pagamento.
+[OpenWeatherMap.org](https://openweathermap.org/api) mette a disposizione un numeroso set di API sia gratuite che a pagamento.
 Il nostro progetto sfrutta esclusivamente API gratuite, in particolare:
-- Current Weather Data: permette di ottenere le informazioni meteo correnti di una qualsisasi località.
-- 5 day/3 hour Forecast: permette di ottenere previsioni meteo di una qualsiasi localittà per i prossimi 5 giorni ad intervalli di 3 ore.
+- [Current](https://openweathermap.org/current) Weather Data: permette di ottenere le informazioni meteo correnti di una qualsisasi località.
+- 5 day/3 hour [Forecast](https://openweathermap.org/forecast5): permette di ottenere previsioni meteo di una qualsiasi localittà per i prossimi 5 giorni ad intervalli di 3 ore.
+
+
 Per usufruire delle API gratuite è necessario ottenere un API-key, anch'essa gratutita, registrandosi su OpenWeatherMap.og.
 Un'API-key è già inserita all'interno del codice per garantirne il funzionamento, per ogni necessità può essere modificata nel file [WeatherServiceimpl.java](https://github.com/federicobrunella/ProgettoCorso/blob/main/OpenWeather/src/main/java/it/univpm/OpenWeather/service/WeatherServiceImpl.java):
 
