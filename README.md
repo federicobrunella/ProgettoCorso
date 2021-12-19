@@ -58,7 +58,7 @@ Nota: 8080 è la porta standard, in caso di necessità puo essere modificata con
 
 ## Rotta */getMetadata*
 Questa rotta permette di visualizzare i metadati, ovvero una descrizione di tutti gli attributi e dei reltivi tipi di dato.
-QUesto output viene mostrato in formato JSON.
+Questo output viene mostrato in formato JSON.
 
 ### Esempio
 Rotta: `localhost:8080/getMetadata`
