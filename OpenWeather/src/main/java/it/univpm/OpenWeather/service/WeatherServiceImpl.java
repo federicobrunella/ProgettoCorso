@@ -41,23 +41,23 @@ public class WeatherServiceImpl implements WeatherService {
 	public JSONObject getJSONCurrentWeather(String city) throws CityNotFoundException{
 		String requestURL = currentURL + city + "&appid=" + apiKey;
 		JSONObject obj = getJSONFromAPI(requestURL);
-		
+
 		if(obj==null)
 			throw new CityNotFoundException();
-		
+
 		return obj;
 	}
 
 	//Metodo per ottenre in formato JSON le previsioni meteo di una certa localita
 	@Override
 	public JSONObject getJSONForecast(String city) throws CityNotFoundException{
-		
+
 		String requestURL = forecastURL + city + "&appid=" + apiKey;
 		JSONObject obj = getJSONFromAPI(requestURL);
-		
+
 		if(obj==null)
 			throw new CityNotFoundException();
-		
+
 		return obj;
 	}
 
@@ -168,29 +168,26 @@ public class WeatherServiceImpl implements WeatherService {
 	public JSONObject getMetadata() {
 		JSONObject metadata = new JSONObject();
 
-		metadata.put("city", " : city name");
-		metadata.put("ID", " : city ID");
-		metadata.put("country"," : country");
+		metadata.put("city", "city name [type: String]" );
+		metadata.put("ID", " : city ID [type: String]");
+		metadata.put("country"," : country [type: String]");
 
-		JSONArray forecastList = new JSONArray();
+		JSONArray weatherDataJSONArray = new JSONArray();
+		JSONObject weatherData = new JSONObject();
 
-		for(int j = 0; j<40; j++) {
-			JSONObject forecast = new JSONObject();
+		weatherData.put("dt"," : UNIX timestamp [type: int]");
+		weatherData.put("txtDateTime", " : human readble timestamp (format: YYYY-MM-DD hh:mm:ss)[type: String]");
+		weatherData.put("temp", ": temperature [type: double]");
+		weatherData.put("temp_min", ": minimum temperature [type: double]");
+		weatherData.put("temp_max", ": maximum temperature [type: double]");
+		weatherData.put("feels_like", ": feels like temperature [type: double]");
 
-			forecast.put("dt"," : UNIX timestamp");
-			forecast.put("txtDateTime", " : human readble timestamp( format: )");
-			forecast.put("temp", ": temperature");
-			forecast.put("temp_min", ": minimum temperature");
-			forecast.put("temp_max", ": maximum temperature");
-			forecast.put("feels_like", ": feels like temperature");
+		weatherData.put("main", " : descripion of the weather(ex. sunny) [type: String]");
+		weatherData.put("description", " : detailed descripion of the weather [type: String]");
 
-			forecast.put("main", " : descripion of the weather(ex. sunny)");
-			forecast.put("description", " : detailed descripion of the weather");
+		weatherDataJSONArray.add(weatherData);
 
-			forecastList.add(forecast);
-		}
-
-		metadata.put("list",forecastList);
+		metadata.put("weatherData",weatherDataJSONArray);
 
 		return metadata;
 	}

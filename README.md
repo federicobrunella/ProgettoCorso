@@ -57,9 +57,33 @@ Nota: 8080 è la porta standard, in caso di necessità puo essere modificata con
 | `/getTimeSlotStats`   | GET | Permette di ottenere le statistiche sulle previsioni meteo di una certa località con filtraggio per fascia oraria e su base giornaliera|
 
 ## Rotta */getMetadata*
-Questa rotta permette di visualizzare i metadati in formato JSON.
-Ovvero una descrizione di tutti gli attributi che restituisce e dei reltivi tipi di dato.
+Questa rotta permette di visualizzare i metadati, ovvero una descrizione di tutti gli attributi e dei reltivi tipi di dato.
+QUesto output viene mostrato in formato JSON.
 
+### Esempio
+Rotta: `localhost:8080/getMetadata`
+
+La risposta a questa richiesta sarà un JSON contenente i metadati:
+
+```json
+{
+    "country": " : country [type: String]",
+    "city": "city name [type: String]",
+    "weatherData": [
+        {
+            "dt": " : UNIX timestamp [type: int]",
+            "temp": ": temperature [type: double]",
+            "temp_min": ": minimum temperature [type: double]",
+            "description": " : detailed descripion of the weather [type: String]",
+            "main": " : descripion of the weather(ex. sunny) [type: String]",
+            "temp_max": ": maximum temperature [type: double]",
+            "feels_like": ": feels like temperature [type: double]",
+            "txtDateTime": " : human readble timestamp (format: YYYY-MM-DD hh:mm:ss)[type: String]"
+        }
+    ],
+    "ID": " : city ID [type: String]"
+}
+```
 
 ## Rotta */getCurrentWeather*
 Con questa rotta si possono visualizare in formato JSON le informazioni relative alle condizioni meteo attuali di una località specificata nella richiesta.
@@ -141,7 +165,7 @@ La risposta a questa richiesta sarà un JSON contenente le previsioni ogni 3 ore
     "ID": "6541474"
 }
 ```
-Nota: per migliorare la leggibilità del documento nell'esempio di risposta sopra, il JSON è stato tagliato e riporta solo la prima previsione disponibile e l'ultima, normalmente il json che si ottiene come risposta conterrebbe, nel JSONArray contenente le previsioni, 40 JSON.
+Nota: per migliorare la leggibilità del documento nell'esempio di risposta sopra, il JSON è stato tagliato e riporta solo la prima previsione disponibile e l'ultima, normalmente il json che si ottiene come risposta conterrebbe, nel JSONArray contenente le previsioni, 40 JSON (realtivi ai dati meteo delle previsioni).
 
 ## Rotta */getDailytStats*
 Con questa rotta si possono ottenere le statistiche relative ai valori di temperatura reale e temperatura percepita.
