@@ -24,11 +24,11 @@ Le informazioni provengono dalle API di [OpenWeatherMap.org](https://openweather
 # API OpenWeatherMap.org
 [OpenWeatherMap.org](https://openweathermap.org/api) mette a disposizione un numeroso set di API sia gratuite che a pagamento.
 Il nostro progetto sfrutta esclusivamente API gratuite, in particolare:
-- [Current](https://openweathermap.org/current) Weather Data: permette di ottenere le informazioni meteo correnti di una qualsisasi località.
-- 5 day/3 hour [Forecast](https://openweathermap.org/forecast5): permette di ottenere previsioni meteo di una qualsiasi localittà per i prossimi 5 giorni ad intervalli di 3 ore.
+- [Current](https://openweathermap.org/current) Weather Data: permette di ottenere le informazioni meteo correnti di una qualsiasi località.
+- 5 day/3 hour [Forecast](https://openweathermap.org/forecast5): permette di ottenere previsioni meteo di una qualsiasi località per i prossimi 5 giorni ad intervalli di 3 ore.
 
 
-Per usufruire delle API gratuite è necessario ottenere un API-key, anch'essa gratutita, registrandosi su OpenWeatherMap.og.
+Per usufruire delle API gratuite è necessario ottenere un API-key, anch'essa gratuita, registrandosi su OpenWeatherMap.org.
 Un'API-key è già inserita all'interno del codice per garantirne il funzionamento, per ogni necessità può essere modificata nel file [WeatherServiceimpl.java](https://github.com/federicobrunella/ProgettoCorso/blob/main/OpenWeather/src/main/java/it/univpm/OpenWeather/service/WeatherServiceImpl.java):
 
 ```java
@@ -39,11 +39,13 @@ Un'API-key è già inserita all'interno del codice per garantirne il funzionamen
 <div id='id-section3'/>
 
 # Utilizzo
-Dopo aver avviato l'applicazione tutte le rotte implementate possono essere chiamate da qualsiasi browser o da un applicativo quale Postman nel segente modo:
+Dopo aver avviato l'applicazione, tutte le rotte implementate possono essere chiamate da un browser qualsiasi o da un applicativo quale Postman.
+
+### Esempio
 
 `localhost:8080/<nome_rotta>`
 
-Nota: 8080 è la porta standard, in caso di necessità puo essere modificata con una qualsisasi altra porta nel file di configurazione: [application.properties](https://github.com/federicobrunella/ProgettoCorso/blob/main/OpenWeather/src/main/resources/application.properties)
+Nota: 8080 è la porta standard, in caso di necessità puo essere modificata con una qualsiasi altra porta nel file di configurazione: [application.properties](https://github.com/federicobrunella/ProgettoCorso/blob/main/OpenWeather/src/main/resources/application.properties)
 
 
 <div id='id-section4'/>
@@ -52,7 +54,7 @@ Nota: 8080 è la porta standard, in caso di necessità puo essere modificata con
 ## Panoramica
 | Rotte | Tipo |Descrizione                    |
 | ------------- | ---- | ------------------------------ |
-| `/getMetadata`      | GET | Permette di ottenre i metadati in formato JSON       |
+| `/getMetadata`      | GET | Permette di ottenere i metadati in formato JSON       |
 | `/getCurrentWeather`   | GET | Permette di ottenere i dati meteo attuali di una certa località    |
 | `/getWeatherForecast`   | GET | Permette di ottenere le previsioni meteo di una certa località |
 | `/getDailytStats`   | GET | Permette di ottenere le statistiche sulle previsioni meteo di una certa località con filtraggio su base giornaliera|
@@ -88,8 +90,8 @@ La risposta a questa richiesta sarà un JSON contenente i metadati:
 ```
 
 ## Rotta */getCurrentWeather*
-Con questa rotta si possono visualizare in formato JSON le informazioni relative alle condizioni meteo attuali di una località specificata nella richiesta.
-Qesta richiesta accetta il parametro 'city' per specificare la località su cui effettuare la richiesta.
+Con questa rotta si possono visualizzare, in formato JSON, le informazioni relative alle condizioni meteo attuali di una località specificata nella richiesta.
+Questa richiesta accetta il parametro 'city' per specificare la località su cui effettuare la richiesta.
 
 Riassumendo i parametri accettati sono:
 | Parametro  | Descrizione |
@@ -122,8 +124,8 @@ La risposta a questa richiesta sarà un JSON contenente i dati meteo attuali per
 ```
 
 ## Rotta */getWeatherForecast*
-Con questa rotta posso ottenere in formato JSON le previsioni meteo per la città specificata nella richiesta.
-Qesta richiesta accetta il parametro 'city' per specificare la località su cui effettuare la richiesta.
+Con questa rotta si possono ottenere in formato JSON le previsioni meteo per la città specificata nella richiesta.
+Questa richiesta accetta il parametro 'city' per specificare la località su cui effettuare la richiesta.
 
 Riassumendo i parametri accettati sono:
 | Parametro  | Descrizione |
@@ -167,7 +169,7 @@ La risposta a questa richiesta sarà un JSON contenente le previsioni ogni 3 ore
     "ID": "6541474"
 }
 ```
-Nota: per migliorare la leggibilità del documento nell'esempio di risposta sopra, il JSON è stato tagliato e riporta solo la prima previsione disponibile e l'ultima, normalmente il json che si ottiene come risposta conterrebbe, nel JSONArray contenente le previsioni, 40 JSON (realtivi ai dati meteo delle previsioni).
+Nota: per migliorare la leggibilità del documento nell'esempio di risposta sopra, il JSON è stato tagliato e riporta solo la prima previsione disponibile e l'ultima.
 
 ## Rotta */getDailytStats*
 Con questa rotta si possono ottenere le statistiche relative ai valori di temperatura reale e temperatura percepita.
