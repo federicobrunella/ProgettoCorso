@@ -1,6 +1,8 @@
 package it.univpm.OpenWeather.model;
 
 /**
+ * Classe modello che racchiude tutti i dati meterologici
+ * 
  * @author Leonardo Pieralisi
  *
  */

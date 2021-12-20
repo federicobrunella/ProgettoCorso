@@ -6,6 +6,8 @@ import it.univpm.OpenWeather.model.City;
 import it.univpm.OpenWeather.model.WeatherData;
 
 /**
+ * Classe che si occupa della gestione delle statistiche
+ * 
  * @author Leonardo Pieralisi
  *
  */
@@ -24,8 +26,13 @@ public class Statistics {
 	public Statistics(City city) {
 		this.city=city;
 	}
+
+	/**
+	 * Metodo che calcola le statistiche sulle temperature 
+	 */
+
 	public void calculateStatistics() {
-		
+
 		absTempMin= (city.getForecast().get(0)).getTempMin();
 		absTempMax= (city.getForecast().get(0)).getTempMax();
 
@@ -34,10 +41,10 @@ public class Statistics {
 			this.avgTempMin += singleWeatherData.getTempMin();
 			this.avgTempMax += singleWeatherData.getTempMax();
 			this.avgFeelsLike += singleWeatherData.getFeelsLike();
-			
+
 			if(singleWeatherData.getTempMin()<this.absTempMin)
 				this.absTempMin=singleWeatherData.getTempMin();
-			
+
 			if(singleWeatherData.getTempMax()>this.absTempMax)
 				this.absTempMax=singleWeatherData.getTempMax();
 		}
@@ -52,6 +59,11 @@ public class Statistics {
 			System.out.println("Errore divisione per zero! passato parametro invalido");
 		}
 	}
+
+	/**
+	 * Metodo che si occupa della creazione del JSON contenente le statistiche mostrate all'utente
+	 * @return JSONObject contentente le statistiche
+	 */
 
 	public JSONObject getJSONStatistics() {
 
@@ -75,6 +87,11 @@ public class Statistics {
 
 		return output;
 	}
+
+	/**
+	 * Metodo toString
+	 * @return String 
+	 */
 
 	public String toString() {
 

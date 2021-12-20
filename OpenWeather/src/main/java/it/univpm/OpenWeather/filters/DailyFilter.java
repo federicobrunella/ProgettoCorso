@@ -4,6 +4,8 @@ import it.univpm.OpenWeather.exceptions.WrongDaysValueException;
 import it.univpm.OpenWeather.model.City;
 
 /**
+ * Classe che si occupa del filtraggio dei dati su base giornaliera
+ * 
  * @author Leonardo Pieralisi
  *
  */
@@ -16,7 +18,12 @@ public class DailyFilter {
 	protected int counter;
 	protected City city;
 
-
+	/**
+	 * Costruttore
+	 * @param city: modello contenente i dati da filtrare
+	 * @param days: parametro che specifica su quanti giorni effettuare il filtraggio 
+	 * @throws WrongDaysValueException
+	 */
 
 	public DailyFilter(City city, String days) throws WrongDaysValueException {
 		this.city=city;
@@ -29,6 +36,11 @@ public class DailyFilter {
 		if(this.days<1 || this.days>5)
 			throw new WrongDaysValueException();
 	}
+
+	/**
+	 * Metodo che filtra i dati in base al parametro temporale passato
+	 * @return Oggetto City contenente gli elementi filtrati
+	 */
 
 	public City filter() {
 

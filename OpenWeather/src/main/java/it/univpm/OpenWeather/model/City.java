@@ -3,6 +3,9 @@ package it.univpm.OpenWeather.model;
 import java.util.Vector;
 
 /**
+ * Classe modello che racchiude tutti i dati di una località
+ * Contiene anche i dati meteorologici della classe WeatherData
+ * 
  * @author Leonardo Pieralisi
  *
  */
