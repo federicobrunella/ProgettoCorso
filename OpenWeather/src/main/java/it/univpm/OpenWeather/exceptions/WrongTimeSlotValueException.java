@@ -1,9 +1,8 @@
-/**
- * 
- */
 package it.univpm.OpenWeather.exceptions;
 
 /**
+ * Eccezione per l'inserimento di un valore non corretto del parametro timeSlot.
+ * 
  * @author Federico Brunella
  *
  */

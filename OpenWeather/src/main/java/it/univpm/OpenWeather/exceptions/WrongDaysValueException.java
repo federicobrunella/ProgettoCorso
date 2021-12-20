@@ -1,6 +1,8 @@
 package it.univpm.OpenWeather.exceptions;
 
 /**
+ * Eccezione per l'inserimento non corretto del parametro days.
+ * 
  * @author Federico Brunella
  *
  */

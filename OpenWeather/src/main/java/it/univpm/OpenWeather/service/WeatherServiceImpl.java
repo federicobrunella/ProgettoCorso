@@ -25,6 +25,8 @@ import it.univpm.OpenWeather.model.City;
 import it.univpm.OpenWeather.model.WeatherData;
 
 /**
+ * Implementazione dell'interfaccia WeatherService.java
+ * 
  * @author Federico Brunella
  *
  */
@@ -36,8 +38,13 @@ public class WeatherServiceImpl implements WeatherService {
 	private String forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=";		//URL richiesta meteo real-time
 	private String currentURL = "https://api.openweathermap.org/data/2.5/weather?q=";		//URL richiesta previsioni 5 giorni/3h
 
-	//Metodo per ottenre in formato JSON i dati meteo in real time di una certa localita
 	@Override
+	/**
+	 * Metodo per ottenre in formato JSON i dati meteo in real time di una certa localita
+	 * 
+	 * @param city: nome della citta su cui effettuare la ricerca [tipo String].
+	 * @return JSONObject contenente i dati meteo attuali della località specificata. 
+	 */
 	public JSONObject getJSONCurrentWeather(String city) throws CityNotFoundException{
 		String requestURL = currentURL + city + "&appid=" + apiKey;
 		JSONObject obj = getJSONFromAPI(requestURL);
@@ -48,8 +55,13 @@ public class WeatherServiceImpl implements WeatherService {
 		return obj;
 	}
 
-	//Metodo per ottenre in formato JSON le previsioni meteo di una certa localita
 	@Override
+	/**
+	 * Metodo per ottenre in formato JSON le previsioni meteo di una certa localita
+	 * 
+	 * @param city: nome della citta su cui effettuare la ricerca [tipo String].
+	 * @return JSONObject contenente le previsioni meteo della località specificata. 
+	 */
 	public JSONObject getJSONForecast(String city) throws CityNotFoundException{
 
 		String requestURL = forecastURL + city + "&appid=" + apiKey;
@@ -61,8 +73,13 @@ public class WeatherServiceImpl implements WeatherService {
 		return obj;
 	}
 
-	//Inserisce negli oggetti del modello i dati meteo attuali necessari 
 	@Override
+	/**
+	 * Metodo che inserisce nel modello i dati delle condizioni meteo attuali. 
+	 * 
+	 * @param city: nome della citta su cui effettuare la ricerca [tipo String].
+	 * @return oggetto istanza della classe City contenente tutti i dati ottenuti dalla richiesta alle API OpenWeather.
+	 */
 	public City JSONCurrentToModelObj(JSONObject obj) {
 		City city = new City();
 		JSONObject main = (JSONObject)obj.get("main");
@@ -93,8 +110,14 @@ public class WeatherServiceImpl implements WeatherService {
 		return city;
 	}
 
-	//Inserisce negli oggetti del modello i dati meteo delle previsioni necessari 
+
 	@Override
+	/**
+	 * Metodo che inserisce nel modello i dati meteo delle previsioni
+	 * 
+	 * @param city: nome della citta su cui effettuare la ricerca [tipo String].
+	 * @return oggetto istanza della classe City contenente tutti i dati ottenuti dalla richiesta alle API OpenWeather.
+	 */
 	public City JSONForecastToModelObj(JSONObject obj) {
 		City city = new City();
 		Vector<WeatherData> weatherData = new Vector<WeatherData>();
@@ -133,6 +156,12 @@ public class WeatherServiceImpl implements WeatherService {
 
 	//Ritorna un JSONObject contenente solo i dati utili al progetto
 	@Override
+	/**
+	 * Crea il JSON che viene mostrato a richiesta avvenuta, il JSON viene creato sulla base del modello.
+	 * 
+	 * @param city: oggetto istanza della classe City.
+	 * @return JSONObject
+	 */
 	public JSONObject ModelObjToMyJSON(City city) {
 		JSONObject output = new JSONObject();
 
@@ -163,8 +192,12 @@ public class WeatherServiceImpl implements WeatherService {
 		return output;
 	}
 
-	//Ritorna i metadati utili alla comprensione del JSON in output dagli altri metodi
 	@Override
+	/**
+	 * Mostra all'utente i metadati.
+	 * 
+	 * @return JSONObject
+	 */
 	public JSONObject getMetadata() {
 		JSONObject metadata = new JSONObject();
 
@@ -195,6 +228,12 @@ public class WeatherServiceImpl implements WeatherService {
 
 	//Salva su un file (.json) i dati meteo attuali di una certa località
 	@Override
+	/**
+	 * Metodo che si occupa di salvare su file un JSONObject.
+	 * 
+	 * @param JSONObject da salvare su file.
+	 * @throws IOException se si verifica un errore di I/O durante il salvataggio su file
+	 */
 	public void saveToFile(JSONObject obj) {
 		String timeStamp =new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date().getTime());
 		String city = ((String)obj.get("city"));
@@ -214,6 +253,14 @@ public class WeatherServiceImpl implements WeatherService {
 
 
 	//Metodo privato utile a ottenere la risposta (JSONObject) di una chiamata alle API OpenWeather
+	/**
+	 * Metodo privato utilizzato per ottenere la risposta di una chiamata alle API OpenWeather (formato JSON)
+	 * 
+	 * @param URL della richiesta da effettuare [tipo String]
+	 * @return JSONObject contenete la risposta ottenua dalla richiesta
+	 * @throws IOException per un errore di I/O
+	 * @throws ParseException per un errore nel parsing del JSON
+	 */
 	private JSONObject getJSONFromAPI(String url) {
 		JSONObject obj = null;
 

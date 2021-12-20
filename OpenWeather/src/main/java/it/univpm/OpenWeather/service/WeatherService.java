@@ -6,6 +6,8 @@ import it.univpm.OpenWeather.exceptions.CityNotFoundException;
 import it.univpm.OpenWeather.model.City;
 
 /**
+ * Interfaccia contenente tutti i metodi necessari per le attività del controllere, implementati in WeatherServiceImpl.java
+ * 
  * @author Federico Brunella
  *
  */

@@ -17,6 +17,8 @@ import it.univpm.OpenWeather.service.WeatherServiceImpl;
 import it.univpm.OpenWeather.statistics.Statistics;
 
 /**
+ * Classe che gestisce le chiamate in ingresso
+ * 
  * @author Federico Brunella
  *
  */
@@ -31,18 +33,26 @@ public class OpenWeatherController {
 
 
 
-	//Rotta /getMetatdata per ottenere i metadati
+	/**
+	 * Rotta di tipo GET che restituisce i metadati.
+	 * 
+	 * @return JSONObject contenente i metadati
+	 */
 	@RequestMapping(value = "/getMetadata")
 	public ResponseEntity<Object> getMetadata() {
 		return new ResponseEntity<>(weatherService.getMetadata(), HttpStatus.OK);
 	}
 
 
-
-	//Rotta /getCurrentWeather per ottenere il meteo attuale, parametri accettati:
-	// "city"= la località su cui effettuare la ricerca
+	/**
+	 * Rotta di tipo GET per ottenere le condizioni meteo attuali di una determinata località
+	 * 
+	 * @param city: parametro per specificare la località di cui ottenere le previsioni [tipo String].
+	 * @return JSONObject contenente le condizioni meteo della località scelta.
+	 * @throws CityNotFoundException: se non e possibile trovare la località specificata.
+	 */
 	@RequestMapping(value = "/getCurrentWeather")
-	public ResponseEntity<Object> getCurrentWeather(@RequestParam(name="city") String city) {
+	public ResponseEntity<Object> getCurrentWeather(@RequestParam(name="city") String city) throws CityNotFoundException {
 		try {
 
 			JSONObject JSONCurrentWeather = weatherService.getJSONCurrentWeather(city);
@@ -59,15 +69,19 @@ public class OpenWeatherController {
 	}
 
 
-
-	//Rotta /getWeatherForecast per ottenre le previsioni meteo, parametri accettati:
-	// "city"= la località su cui effettuare la ricerca
+	/**
+	 * Rotta per ottenere le previsioni meteo di una determinata località per i successivi 5 giorni (ogni 3 ore)
+	 * 
+	 * @param city: parametro per specificare la località di cui ottenere le previsioni [tipo String].
+	 * @return JSONObject contenente le previsioni meteo della località scelta.
+	 * @throws CityNotFoundException: se non e possibile trovare la località specificata.
+	 */
 	@RequestMapping(value = "/getWeatherForecast")
 	public ResponseEntity<Object> getForecastbyCity(@RequestParam(name="city") String city) throws CityNotFoundException {
 		try {
-			
+
 			JSONObject JSONForecast = weatherService.getJSONForecast(city);
-			
+
 			return new ResponseEntity<>(weatherService.ModelObjToMyJSON(weatherService.JSONForecastToModelObj(JSONForecast)), HttpStatus.OK);
 
 		} catch(CityNotFoundException e) {
@@ -80,12 +94,21 @@ public class OpenWeatherController {
 
 
 
-	//Rotta /getDailyStats per ottenere le statistiche sui dati meteo con filtro giornaliero, parametri accettati:
-	// "city"= la località su cui effettuare la ricerca
-	// "days"= i giorni su cui calcolare le statistiche (da 1 a 5, prossimi giorni)
+	/**
+	 * Rotta per ottenere le statistiche sulle previoni meteo relative a una specifica località
+	 * con possibilità di applicare un filtro su base giornaliera
+	 * 
+	 * @param city: parametro per specificare la località di cui ottenere le previsioni [tipo String].
+	 * @param days: parametro per specifcare l'intervallo temporale su cui effettuare
+	 * 				le statistiche (espresso in giorni, valori compresi tra 1 e 5) [tipo String].
+	 * @return JSONObject contenente le statistiche richieste
+	 * @throws WrongDaysValueException: se viene inserito un valore di days minore di 1 o maggiore di 5
+	 * @throws CityNotFoundException: se non e possibile trovare la località specificata.
+	 * @throws NumberFormatException: se days non è un numero 
+	 */
 	@RequestMapping(value = "/getDailytStats")
 	public ResponseEntity<Object> getDailyStats(@RequestParam(name="city") String city, @RequestParam(name="days") String days)
-			throws WrongDaysValueException, CityNotFoundException{
+			throws NumberFormatException, WrongDaysValueException, CityNotFoundException{
 		try {
 
 			JSONObject JSONForecast = weatherService.getJSONForecast(city);
@@ -105,12 +128,24 @@ public class OpenWeatherController {
 		}
 	}
 
-	//Rotta /getTimeSlotStats per ottenere le statistiche sui dati meteo con filtro giornaliero/fascia oraria, parametri accettati:
-	// "city"= la località su cui effettuare la ricerca
-	// "days"= i giorni su cui calcolare le statistiche (da 1 a 5, prossimi giorni)
-	// "timeSlot" = fascia oraria (da 00 a 21, ogni 3h, quindi ammessi come parametri: 00, 03, 06, ..., 21)
+
+	/**
+	 * Rotta per ottenere le statistiche sulle previoni meteo relative a una specifica località
+	 * con possibilità di applicare un filtro su base giornaliera e per fascia oraria
+	 * 
+	 * @param city: parametro per specificare la località di cui ottenere le previsioni [tipo String].
+	 * @param days: parametro per specifcare l'intervallo temporale su cui effettuare
+	 * 				le statistiche (espresso in giorni, valori compresi tra 1 e 5) [tipo String].
+	 * @param timeSlot: parametro per specificare la fascia oraria su cui filtrare i dati
+	 * @return JSONObject contenente le statistiche richieste
+	 * @throws NumberFormatException: se days non è un numero 
+	 * @throws WrongDaysValueException: se viene inserito un valore di days minore di 1 o maggiore di 5
+	 * @throws WrongTimeSlotValueException: se viene inserito un valore di days diverso da 00, 03, 06, ..., 18, 21.
+	 * @throws CityNotFoundException: se non e possibile trovare la località specificata.
+	 */
 	@RequestMapping(value = "/getTimeSlotStats")
-	public ResponseEntity<Object> getTimeSlotStats(@RequestParam(name="city") String city, @RequestParam(name="days") String days, @RequestParam(name="timeSlot") String timeSlot) {
+	public ResponseEntity<Object> getTimeSlotStats(@RequestParam(name="city") String city, @RequestParam(name="days") String days, @RequestParam(name="timeSlot") String timeSlot) 
+			throws NumberFormatException, WrongDaysValueException, WrongTimeSlotValueException,CityNotFoundException {
 		try {
 
 			JSONObject JSONForecast = weatherService.getJSONForecast(city);

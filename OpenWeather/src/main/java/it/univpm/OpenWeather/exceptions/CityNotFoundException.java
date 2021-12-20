@@ -1,6 +1,8 @@
 package it.univpm.OpenWeather.exceptions;
 
 /**
+ * Eccezione per l'inserimento di una località non corretta.
+ * 
  * @author Federico Brunella
  *
  */
