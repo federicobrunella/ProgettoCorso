@@ -11,10 +11,12 @@
 
 # Introduzione
 Il progetto è un applicazione Spring che permette di ottenere informazioni e statistiche sulle temperature di una specificata località.
-Le informazioni provengono dalle API di [OpenWeatherMap.org](https://openweathermap.org/), sono disponibili tramite la nostra applicazione:
+Sono disponibili tramite la nostra applicazione:
 - Informazioni sulle condizioni meteo attuali.
-- previsioni ogni 3 ore per i successivi 5 giorni.
+- Previsioni ogni 3 ore per i successivi 5 giorni.
 - Statistiche sulle previsioni meteo relative a: temperatura reale, percepita, massima e minima.
+
+Le informazioni provengono dalle API di [OpenWeatherMap.org](https://openweathermap.org/).
 
 
 <div id='id-section2'/>
@@ -227,6 +229,7 @@ La risposta a questa richiesta sarà un JSON contenente le statistiche meteo cal
     "city": "Jesi",
     "id": "6541474"
 }
+
 ```
 
 Nota: il parametro `timeSlot` indica quindi l'intervallo orario al quale l'utente è interessato, osservato che l'API di OpenWeatherMap.org restituisce le previsioni ogni 3 ore sempre a partire dalle 00:00, otteniamo che le fascie orarie disponibili sono quelle che vanno dalle 00 alle 21 (00, 03, 06, ..., 21)
