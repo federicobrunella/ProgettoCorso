@@ -1,1 +1,7 @@
+it.univpm.OpenWeather
+it.univpm.OpenWeather.controller
+it.univpm.OpenWeather.exceptions
+it.univpm.OpenWeather.filters
 it.univpm.OpenWeather.model
+it.univpm.OpenWeather.service
+it.univpm.OpenWeather.statistics
