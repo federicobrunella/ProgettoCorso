@@ -187,10 +187,12 @@ La risposta a questa richiesta sarà un JSON contenente le statistiche relative 
 {
     "country": "IT",
     "stats": {
-        "avg_TempMax": 280.10062500000004,
-        "avg_FellsLike": 279.16437499999995,
-        "avg_TempMin": 280.01187500000003,
-        "avg_Temp": 280.10062500000004
+        "avg_TempMax": 281.4981250000001,
+        "avg_FellsLike": 280.22249999999997,
+        "avg_TempMin": 281.4425,
+        "absolute_TempMax": 283.82,
+        "absolute_tempMin": 278.97,
+        "avg_Temp": 281.44562500000006
     },
     "city": "Jesi",
     "id": "6541474"
@@ -215,10 +217,12 @@ La risposta a questa richiesta sarà un JSON contenente le statistiche meteo cal
 {
     "country": "IT",
     "stats": {
-        "avg_TempMax": 279.00749999999994,
-        "avg_FellsLike": 277.93,
-        "avg_TempMin": 279.00749999999994,
-        "avg_Temp": 279.00749999999994
+        "avg_TempMax": 280.235,
+        "avg_FellsLike": 279.4225,
+        "avg_TempMin": 280.235,
+        "absolute_TempMax": 282.09,
+        "absolute_tempMin": 279.17,
+        "avg_Temp": 280.235
     },
     "city": "Jesi",
     "id": "6541474"
