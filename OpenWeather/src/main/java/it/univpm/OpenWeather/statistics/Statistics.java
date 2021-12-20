@@ -16,6 +16,8 @@ public class Statistics {
 	protected double avgTempMax;
 	protected double avgTemp;
 	protected double avgFeelsLike;
+	protected double absTempMin;
+	protected double absTempMax;
 
 	protected City city;
 
@@ -23,12 +25,21 @@ public class Statistics {
 		this.city=city;
 	}
 	public void calculateStatistics() {
+		
+		absTempMin= (city.getForecast().get(0)).getTempMin();
+		absTempMax= (city.getForecast().get(0)).getTempMax();
 
 		for(WeatherData singleWeatherData : this.city.getForecast()) {
 			this.avgTemp += singleWeatherData.getTemp();
 			this.avgTempMin += singleWeatherData.getTempMin();
 			this.avgTempMax += singleWeatherData.getTempMax();
 			this.avgFeelsLike += singleWeatherData.getFeelsLike();
+			
+			if(singleWeatherData.getTempMin()<this.absTempMin)
+				this.absTempMin=singleWeatherData.getTempMin();
+			
+			if(singleWeatherData.getTempMax()>this.absTempMax)
+				this.absTempMax=singleWeatherData.getTempMax();
 		}
 
 		try {
@@ -53,6 +64,8 @@ public class Statistics {
 		statsJSON.put("avg_TempMin", this.avgTempMin);
 		statsJSON.put("avg_TempMax", this.avgTempMax);
 		statsJSON.put("avg_FellsLike", this.avgFeelsLike);
+		statsJSON.put("absolute_tempMin", this.absTempMin);
+		statsJSON.put("absolute_TempMax", this.absTempMax);
 
 		output.put("stats", statsJSON);
 
@@ -69,7 +82,9 @@ public class Statistics {
 				"Average Temperature: "+ this.avgTemp +"\n"
 						+ "Average Min Temperature: "+ this.avgTempMin +"\n"
 						+ "Average Max Temperature: "+ this.avgTempMax +"\n"
-						+"Average Feels Like: "+ this.avgFeelsLike +"\n" ;
+						+"Average Feels Like: "+ this.avgFeelsLike +"\n"
+						+"Absolute Min Temperature"+ this.absTempMin +"\n"
+						+"Abolute Max Temperature"+ this.absTempMax +"\n";
 
 		return output;
 	}
@@ -101,6 +116,18 @@ public class Statistics {
 	}
 	public void setAvgFeelsLike(double avgFeelsLike) {
 		this.avgFeelsLike = avgFeelsLike;
+	}
+	public double getAbsTempMin() {
+		return absTempMin;
+	}
+	public void setAbsTempMin(double absTempMin) {
+		this.absTempMin = absTempMin;
+	}
+	public double getAbsTempMax() {
+		return absTempMax;
+	}
+	public void setAbsTempMax(double absTempMax) {
+		this.absTempMax = absTempMax;
 	}
 	public City getCity() {
 		return city;
